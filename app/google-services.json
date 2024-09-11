@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "122165733538",
+    "project_id": "portalmedico-162dd",
+    "storage_bucket": "portalmedico-162dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122165733538:android:89a808064ee1d6aa484ffb",
+        "android_client_info": {
+          "package_name": "edu.udb.desafio2dsm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmET_t8G4Pc314jmIRoSl5_piAbmvEUss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
