@@ -40,7 +40,9 @@ class LoginActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             // Login successful
                             Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                            // Navigate to main activity
+                            // Navigate to MenuActivity
+                            startActivity(Intent(this, MenuActivity::class.java))
+                            finish()
                         } else {
                             // Login failed
                             Toast.makeText(this, "Error en el inicio de sesión: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
