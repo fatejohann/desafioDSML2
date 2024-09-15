@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -49,9 +46,10 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
-    private fun addToCart() {
+    private fun addToCart(menuItem: MenuItem) {
         cartItemCount++
         cartItemCountView.text = cartItemCount.toString()
+        CartManager.addItem(menuItem)  // Agregar el ítem al carrito
     }
 
     private fun openCartActivity() {
@@ -69,7 +67,7 @@ class MenuActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_cart -> {
                 // Maneja el clic en el ícono del carrito
-                Toast.makeText(this, "Carrito de compras", Toast.LENGTH_SHORT).show()
+                openCartActivity()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -81,7 +79,7 @@ data class MenuItem(val title: String, val description: String, val imageResId: 
 
 class MenuAdapter(
     private val menuItems: List<MenuItem>,
-    private val addToCartCallback: () -> Unit
+    private val addToCartCallback: (MenuItem) -> Unit
 ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
 
     class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -104,7 +102,7 @@ class MenuAdapter(
 
         holder.itemView.setOnClickListener {
             // Llamamos a la función de agregar al carrito
-            addToCartCallback()
+            addToCartCallback(menuItem)
             Toast.makeText(holder.itemView.context, "Añadido ${menuItem.title} al carrito", Toast.LENGTH_SHORT).show()
         }
     }
