@@ -6,14 +6,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().reference
 
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
@@ -38,13 +39,25 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            // Login successful
-                            Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-                            // Navigate to MenuActivity
-                            startActivity(Intent(this, MenuActivity::class.java))
-                            finish()
+                            // Login exitoso
+                            val user = auth.currentUser
+                            user?.let {
+                                val userId = user.uid
+                                // Leer datos del usuario en Firebase Database
+                                database.child("users").child(userId).get()
+                                    .addOnSuccessListener { snapshot ->
+                                        val name = snapshot.child("name").value as? String
+                                        Toast.makeText(this, "Bienvenido, $name", Toast.LENGTH_SHORT).show()
+                                        // Navegar a MenuActivity
+                                        startActivity(Intent(this, MenuActivity::class.java))
+                                        finish()
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(this, "Error al obtener datos de usuario", Toast.LENGTH_SHORT).show()
+                                    }
+                            }
                         } else {
-                            // Login failed
+                            // Login fallido
                             Toast.makeText(this, "Error en el inicio de sesión: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -54,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         registerTextView.setOnClickListener {
-            // Navigate to RegisterActivity
+            // Navegar a RegisterActivity
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         }

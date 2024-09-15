@@ -1,47 +1,66 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
-    <FrameLayout
-        android:id="@+id/cartIconContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_margin="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/cartIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_shopping_cart"
-            android:contentDescription="Carrito de compras" />
+    <!-- Contenedor horizontal para "Bienvenido: usuario" y el ícono del carrito -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
 
         <TextView
-            android:id="@+id/cartItemCount"
+            android:id="@+id/userNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/bienvenido"
+            android:textSize="20sp"
+            android:textColor="@color/primary"/>
+
+        <FrameLayout
+            android:id="@+id/cartIconContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:layout_margin="4dp"
-            android:background="@drawable/circle_bg"
-            android:text="0"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-    </FrameLayout>
+            android:layout_marginEnd="16dp">
 
+            <ImageView
+                android:id="@+id/cartIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_shopping_cart"
+                android:contentDescription="Carrito de compras"/>
+
+            <TextView
+                android:id="@+id/cartItemCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="4dp"
+                android:background="@drawable/circle_bg"
+                android:text="0"
+                android:textColor="@color/text_icons"
+                android:textSize="12sp"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Título de "Menú Principal" con pequeño margen abajo -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/menu_principal"
-        android:textSize="24sp"
-        android:textColor="@color/primary"
+        android:textSize="26sp"
+        android:textColor="@color/dark_primary"
         android:layout_gravity="center"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="12dp"/>
 
+    <!-- RecyclerView para los items del menú -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/menuRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </LinearLayout>

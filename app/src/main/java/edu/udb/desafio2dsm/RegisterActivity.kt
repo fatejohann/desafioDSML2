@@ -6,16 +6,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var nameEditText: EditText
     private lateinit var registerButton: Button
     private lateinit var loginTextView: TextView
 
@@ -27,22 +28,38 @@ class RegisterActivity : AppCompatActivity() {
 
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
+        nameEditText = findViewById(R.id.nameEditText) // Campo de nombre
         registerButton = findViewById(R.id.registerButton)
         loginTextView = findViewById(R.id.loginTextView)
 
         registerButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
+            val name = nameEditText.text.toString() // Obtener el nombre del campo
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
+            if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            // Registration successful
-                            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                            // Navigate to main activity or login
+                            val user = auth.currentUser
+
+                            // Actualiza el perfil del usuario con el nombre
+                            val profileUpdates = UserProfileChangeRequest.Builder()
+                                .setDisplayName(name) // Establecer el nombre del usuario
+                                .build()
+
+                            user?.updateProfile(profileUpdates)
+                                ?.addOnCompleteListener { updateTask ->
+                                    if (updateTask.isSuccessful) {
+                                        Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                        // Navegar a la pantalla principal o Login
+                                        startActivity(Intent(this, LoginActivity::class.java))
+                                        finish()
+                                    } else {
+                                        Toast.makeText(this, "Error al actualizar el perfil", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
                         } else {
-                            // Registration failed
                             Toast.makeText(this, "Error en el registro: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -52,7 +69,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         loginTextView.setOnClickListener {
-            // Navigate to LoginActivity
+            // Navegar a la LoginActivity
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }

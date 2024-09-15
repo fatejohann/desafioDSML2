@@ -11,4 +11,6 @@
     <string name="menu_principal">menu principal</string>
     <string name="carrito">Carrito</string>
     <string name="items_en_el_carrito">Items en el carrito</string>
+    <string name="nombre">Nombre</string>
+    <string name="bienvenido">Bienvenido</string>
 </resources>

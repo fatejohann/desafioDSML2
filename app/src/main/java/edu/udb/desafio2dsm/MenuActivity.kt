@@ -12,18 +12,25 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 
 class MenuActivity : AppCompatActivity() {
 
     private var cartItemCount: Int = 0
     private lateinit var cartItemCountView: TextView
+    private lateinit var userNameTextView: TextView // TextView para mostrar el nombre del usuario
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        // Inicializar Firebase Auth
+        auth = FirebaseAuth.getInstance()
+
         // Referencia del TextView que muestra el número de items en el carrito
         cartItemCountView = findViewById(R.id.cartItemCount)
+        userNameTextView = findViewById(R.id.userNameTextView) // Referenciar el TextView del nombre del usuario
 
         val recyclerView: RecyclerView = findViewById(R.id.menuRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -38,6 +45,20 @@ class MenuActivity : AppCompatActivity() {
 
         val adapter = MenuAdapter(menuItems, this::addToCart)
         recyclerView.adapter = adapter
+
+        // Mostrar el nombre del usuario en el TextView
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val displayName = currentUser.displayName  // Obtener el nombre del usuario
+            if (!displayName.isNullOrEmpty()) {
+                userNameTextView.text = "Bienvenido: $displayName"
+            } else {
+                userNameTextView.text = "Bienvenido"
+            }
+        } else {
+            userNameTextView.text = "Bienvenido"
+        }
+
 
         // Maneja el click en el ícono del carrito
         val cartIcon: ImageView = findViewById(R.id.cartIcon)
@@ -75,7 +96,10 @@ class MenuActivity : AppCompatActivity() {
     }
 }
 
-data class MenuItem(val title: String, val description: String, val imageResId: Int)
+
+data class MenuItem(val title: String,
+                    val description: String,
+                    val imageResId: Int)
 
 class MenuAdapter(
     private val menuItems: List<MenuItem>,
