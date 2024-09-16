@@ -1,5 +1,6 @@
 package edu.udb.desafio2dsm
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.Date
+import java.util.Locale
 
 class OrderSummaryActivity : AppCompatActivity() {
 
@@ -49,6 +52,9 @@ class OrderSummaryActivity : AppCompatActivity() {
             val userId = auth.currentUser?.uid
 
             if (userId != null) {
+                // Obtén la fecha actual en formato yyyy-MM-dd
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val currentDate = dateFormat.format(Date())
                 // Crea un mapa de datos del carrito
                 val cartData = cartItems.map { item ->
                     mapOf(
@@ -62,6 +68,7 @@ class OrderSummaryActivity : AppCompatActivity() {
                 val orderId = database.child("orders").push().key // Crea una nueva clave para el pedido
                 val orderUpdates = mapOf(
                     "userId" to userId, // Asociar el pedido con el ID del usuario
+                    "date" to currentDate,
                     "totalAmount" to totalAmount,
                     "items" to cartData
                 )
