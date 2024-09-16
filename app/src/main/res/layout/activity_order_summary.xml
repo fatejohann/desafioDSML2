@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <!-- Título del carrito -->
+    <TextView
+        android:id="@+id/cartTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Carrito de compras"
+        android:textSize="24sp"
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- RecyclerView para los productos del carrito -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cartRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" />
+
+    <!-- Línea divisora -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_marginVertical="8dp" />
+
+    <!-- Texto que muestra el total -->
+    <TextView
+        android:id="@+id/totalAmountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total: $0.00"
+        android:textSize="20sp"
+        android:textColor="@color/primary"
+        android:layout_gravity="end"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp" />
+
+    <!-- Botón para finalizar compra -->
+    <Button
+        android:id="@+id/checkoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Finalizar compra"
+        android:textColor="@color/text_icons"
+        android:backgroundTint="@color/primary"
+        android:layout_marginTop="16dp" />
+</LinearLayout>

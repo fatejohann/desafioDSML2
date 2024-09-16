@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/productImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher_foreground"
+        android:contentDescription="Imagen del producto"/>
+
+    <TextView
+        android:id="@+id/productNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre_del_producto"
+        android:textSize="24sp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/productPriceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/precio_del_producto"
+        android:textSize="20sp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/productQuantityEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cantidad"
+        android:inputType="number"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/addToCartButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/agregar_al_carrito"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

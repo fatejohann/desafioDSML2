@@ -35,13 +35,20 @@ class MenuActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.menuRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val menuItems = List(10) { index ->
-            MenuItem(
-                "Ítem ${index + 1}",
-                "Descripción del ítem ${index + 1}",
-                R.drawable.ic_launcher_foreground
-            )
-        }
+        val menuItems = listOf(
+            MenuItem("Ibuprofeno", "Analgésico", R.mipmap.ibuprofeno, 8.99),
+            MenuItem("Tums", "Antiácidos", R.mipmap.tums, 5.49),
+            MenuItem("Multivitamínico diario", "Vitaminas", R.drawable.multivitaminico_foreground, 12.99),
+            MenuItem("Band-Aid", "Vendajes adhesivos", R.drawable.bandaid_foreground, 3.99),
+            MenuItem("Purell", "Desinfectante de manos", R.drawable.purell_foreground, 2.99),
+            MenuItem("Neutrogena SPF 50", "Protector solar", R.drawable.neutrogena_foreground, 10.99),
+            MenuItem("Listerine", "Enjuague bucal", R.drawable.listerine_foreground, 6.99),
+            MenuItem("Cetirizina", "Antialérgicos", R.drawable.cetirizina_foreground, 15.99),
+            MenuItem("Robitussin", "Jarabe para la tos", R.drawable.robitussin_foreground, 7.99),
+            MenuItem("Termómetro Vicks", "Termómetro digital", R.drawable.thermometer_foreground, 14.99)
+        )
+
+
 
         val adapter = MenuAdapter(menuItems, this::addToCart)
         recyclerView.adapter = adapter
@@ -65,6 +72,12 @@ class MenuActivity : AppCompatActivity() {
         cartIcon.setOnClickListener {
             openCartActivity()
         }
+
+        cartIcon.setOnClickListener {
+            val intent = Intent(this, OrderSummaryActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     private fun addToCart(menuItem: MenuItem) {
@@ -97,9 +110,15 @@ class MenuActivity : AppCompatActivity() {
 }
 
 
-data class MenuItem(val title: String,
-                    val description: String,
-                    val imageResId: Int)
+data class MenuItem(
+    val title: String,
+    val description: String,
+    val imageResId: Int,
+    val price: Double, // Añadir campo de precio
+    val quantity: Int = 1 // Añadir campo de cantidad por defecto
+)
+
+
 
 class MenuAdapter(
     private val menuItems: List<MenuItem>,
@@ -123,13 +142,20 @@ class MenuAdapter(
         holder.titleTextView.text = menuItem.title
         holder.descriptionTextView.text = menuItem.description
         holder.imageView.setImageResource(menuItem.imageResId)
+        holder.itemView.findViewById<TextView>(R.id.itemPrice).text = "$${menuItem.price}"
 
         holder.itemView.setOnClickListener {
-            // Llamamos a la función de agregar al carrito
-            addToCartCallback(menuItem)
-            Toast.makeText(holder.itemView.context, "Añadido ${menuItem.title} al carrito", Toast.LENGTH_SHORT).show()
+            val context = holder.itemView.context
+            val intent = Intent(context, ProductDetailActivity::class.java).apply {
+                putExtra("productName", menuItem.title)
+                putExtra("productPrice", menuItem.price)
+                putExtra("productImageResId", menuItem.imageResId)
+            }
+            context.startActivity(intent)
         }
+
     }
+
 
     override fun getItemCount() = menuItems.size
 }

@@ -31,27 +31,40 @@ class CartActivity : AppCompatActivity() {
     }
 }
 
-class CartAdapter(private val cartItems: List<MenuItem>) :
-    RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartAdapter(private val cartItems: List<MenuItem>) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
+    // Clase ViewHolder que contiene las vistas de cada item del carrito
     class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTextView: TextView = itemView.findViewById(R.id.itemTitle)
-        val descriptionTextView: TextView = itemView.findViewById(R.id.itemDescription)
-        val imageView: ImageView = itemView.findViewById(R.id.itemImage)
+        val itemTitle: TextView = itemView.findViewById(R.id.itemTitle)
+        val itemQuantity: TextView = itemView.findViewById(R.id.itemQuantity)
+        val itemPrice: TextView = itemView.findViewById(R.id.itemUnitPrice)
+        val itemImage: ImageView = itemView.findViewById(R.id.itemImage)
+        val itemTotalPrice: TextView = itemView.findViewById(R.id.itemTotalPrice)
+
     }
 
+    // Crear el ViewHolder inflando el layout del item
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.cart_item, parent, false)
-        return CartViewHolder(view)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.cart_item, parent, false)
+        return CartViewHolder(itemView)
     }
 
+    // Asignar los valores a las vistas dentro del ViewHolder
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val cartItem = cartItems[position]
-        holder.titleTextView.text = cartItem.title
-        holder.descriptionTextView.text = cartItem.description
-        holder.imageView.setImageResource(cartItem.imageResId)
+        val currentItem = cartItems[position]
+        holder.itemTitle.text = currentItem.title
+        holder.itemQuantity.text = "Cantidad: ${currentItem.quantity}"
+        holder.itemPrice.text = "$${currentItem.price}"
+        holder.itemTotalPrice.text = "$${currentItem.price * currentItem.quantity}"
+
+        holder.itemImage.setImageResource(currentItem.imageResId)
     }
 
-    override fun getItemCount() = cartItems.size
+    // Devuelve el número total de items
+    override fun getItemCount(): Int {
+        return cartItems.size
+    }
 }
+
+
+

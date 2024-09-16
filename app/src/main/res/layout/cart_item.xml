@@ -1,45 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- Imagen del producto -->
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/circle_bg" /> <!-- Aquí se setea la imagen desde el código -->
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/itemImage"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_launcher_foreground"
-            android:contentDescription="Ícono del ítem" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Nombre del producto -->
+        <TextView
+            android:id="@+id/itemTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp">
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"
+            android:text="Nombre del producto" />
 
-            <TextView
-                android:id="@+id/itemTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/primary_text" />
+        <!-- Cantidad -->
+        <TextView
+            android:id="@+id/itemQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/secondary_text"
+            android:text="Cantidad: 1" />
 
-            <TextView
-                android:id="@+id/itemDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/secondary_text" />
-        </LinearLayout>
+        <!-- Precio unitario -->
+        <TextView
+            android:id="@+id/itemUnitPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/secondary_text"
+            android:text="Precio: $0.00" />
+
+        <!-- Precio total (cantidad * precio unitario) -->
+        <TextView
+            android:id="@+id/itemTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/dark_primary"
+            android:text="Total: $0.00" />
+
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>

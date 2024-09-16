@@ -13,4 +13,10 @@
     <string name="items_en_el_carrito">Items en el carrito</string>
     <string name="nombre">Nombre</string>
     <string name="bienvenido">Bienvenido</string>
+    <string name="precio_del_producto">Precio del producto</string>
+    <string name="agregar_al_carrito">Agregar al carrito</string>
+    <string name="nombre_del_producto">Nombre del producto</string>
+    <string name="titulo">Título</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="precio">Precio</string>
 </resources>
