@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var nameEditText: EditText
@@ -25,17 +26,18 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().reference // Obtiene la referencia a la base de datos
 
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
-        nameEditText = findViewById(R.id.nameEditText) // Campo de nombre
+        nameEditText = findViewById(R.id.nameEditText)
         registerButton = findViewById(R.id.registerButton)
         loginTextView = findViewById(R.id.loginTextView)
 
         registerButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
-            val name = nameEditText.text.toString() // Obtener el nombre del campo
+            val name = nameEditText.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
                 auth.createUserWithEmailAndPassword(email, password)
@@ -51,10 +53,24 @@ class RegisterActivity : AppCompatActivity() {
                             user?.updateProfile(profileUpdates)
                                 ?.addOnCompleteListener { updateTask ->
                                     if (updateTask.isSuccessful) {
-                                        Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                                        // Navegar a la pantalla principal o Login
-                                        startActivity(Intent(this, LoginActivity::class.java))
-                                        finish()
+                                        // Guardar información adicional del usuario en la base de datos
+                                        user?.uid?.let { userId ->
+                                            val userMap = mapOf(
+                                                "name" to name,
+                                                "email" to email
+                                            )
+                                            database.child("users").child(userId).setValue(userMap)
+                                                .addOnCompleteListener { dbTask ->
+                                                    if (dbTask.isSuccessful) {
+                                                        Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                                                        // Navegar a la pantalla principal o Login
+                                                        startActivity(Intent(this, LoginActivity::class.java))
+                                                        finish()
+                                                    } else {
+                                                        Toast.makeText(this, "Error al guardar los datos en la base de datos", Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }
+                                        }
                                     } else {
                                         Toast.makeText(this, "Error al actualizar el perfil", Toast.LENGTH_SHORT).show()
                                     }

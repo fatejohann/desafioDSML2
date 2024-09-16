@@ -46,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
                                 // Leer datos del usuario en Firebase Database
                                 database.child("users").child(userId).get()
                                     .addOnSuccessListener { snapshot ->
+
                                         val name = snapshot.child("name").value as? String
                                         Toast.makeText(this, "Bienvenido, $name", Toast.LENGTH_SHORT).show()
                                         // Navegar a MenuActivity
