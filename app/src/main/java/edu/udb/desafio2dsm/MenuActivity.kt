@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -75,6 +76,12 @@ class MenuActivity : AppCompatActivity() {
 
         cartIcon.setOnClickListener {
             val intent = Intent(this, OrderSummaryActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Maneja el clic en el botón para ver el historial
+        findViewById<Button>(R.id.viewHistoryButton).setOnClickListener {
+            val intent = Intent(this, PurchaseHistoryActivity::class.java)
             startActivity(intent)
         }
 

@@ -19,4 +19,5 @@
     <string name="titulo">Título</string>
     <string name="cantidad">Cantidad</string>
     <string name="precio">Precio</string>
+    <string name="historial_compras">historial de compras</string>
 </resources>

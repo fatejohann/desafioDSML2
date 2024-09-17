@@ -48,6 +48,7 @@
         </FrameLayout>
     </LinearLayout>
 
+
     <!-- Título de "Menú Principal" con pequeño margen abajo -->
     <TextView
         android:layout_width="wrap_content"
@@ -57,6 +58,12 @@
         android:textColor="@color/dark_primary"
         android:layout_gravity="center"
         android:layout_marginBottom="12dp"/>
+    <Button
+        android:id="@+id/viewHistoryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Historial"
+        android:onClick="onViewHistoryClicked"/>
 
     <!-- RecyclerView para los items del menú -->
     <androidx.recyclerview.widget.RecyclerView
